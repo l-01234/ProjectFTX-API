@@ -6,6 +6,12 @@ import Converter from './components/common/converter'
 import { getData } from '../src/lib/api'
 
 class App extends React.Component {
+
+  async componentDidMount() {
+    const getDataSet = await getData()
+    console.log(getDataSet)
+  }
+
   
   render() {
     return (
@@ -20,5 +26,5 @@ class App extends React.Component {
     )
   }
 }
-console.log(getData)
+
 export default App
