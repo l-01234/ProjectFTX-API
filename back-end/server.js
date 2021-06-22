@@ -3,7 +3,15 @@ const request = require('request');
 
 const hostname = '127.0.0.1';
 const port = 3001;
-const data = {}
+
+function requestData () {
+  request('https://ftx.com/api/markets', function (error, response, body) {
+      if (!error && response.statusCode === 200) {
+          const data = body // Data
+          return data
+       }   
+  })     
+}
 
 const server = http.createServer((req, res) => {
   res.statusCode = 200;
@@ -15,13 +23,4 @@ server.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
 });
 
-request('https://ftx.com/api/markets', function (error, response, body) {
-    if (!error && response.statusCode === 200) {
-        const data = body // Data
-        console.log(data)
-     }   
-     return data
-})     
-
-
-
+module.exports = requestData

@@ -1,4 +1,5 @@
 import axios from 'axios'
+const baseUrl = 'http://localhost:3001/'
 
 const config = {
     headers: {
@@ -10,23 +11,8 @@ const config = {
   };
   
 
-// Base Data
 export const getData = () => {
-    return axios.get('https://ftx.com/api/markets', config)
-  }
+  return axios.get(`${baseUrl}`, config)
+}
 
-
-  //
-
-  const FTXRest = require('./');
-
-  const ftx = new FTXRest({
-    key: 'x',
-    secret: 'y',
-    subaccount: 'z'
-  })
-  
-  ftx.request({
-    method: 'GET',
-    path: '/market'
-  }).then(console.log);
+console.log(getData)
