@@ -1,26 +1,55 @@
-const http = require('http');
-const request = require('request');
+const http = require("http");
+const cors = require("cors");
+const express = require("express");
+const app = express();
+const axios = require("axios");
 
-const hostname = '127.0.0.1';
-const port = 3001;
+const port = 4000;
 
-function requestData () {
-  request('https://ftx.com/api/markets', function (error, response, body) {
-      if (!error && response.statusCode === 200) {
-          const data = body // Data
-          return data
-       }   
-  })     
-}
+const corsOpts = {
+  origin: "*",
+  methods: ["GET", "POST"],
+  allowedHeaders: ["Content-Type"],
+};
 
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('FTX Api Server - Node.JS');
+app.use(cors(corsOpts));
+
+app.listen(port, async () => {
+  console.log("Server started");
 });
 
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
+const client = axios.create({
+  baseURL: "https://ftx.com/api/",
 });
 
-module.exports = requestData
+const request = (options) => {
+  const onSuccess = (response) => {
+    return Promise.resolve(response.data);
+  };
+
+  const onError = (error) => {
+    console.error("Request Failed:", error.config);
+
+    if (error.response) {
+      console.error("Status:", error.response.status);
+      console.error("Data:", error.response.data);
+      console.error("Headers:", error.response.headers);
+    } else {
+      console.error("Error Message:", error.message);
+    }
+    
+    return Promise.reject(error.response || error.message);
+  };
+
+  return client(options).then(onSuccess).catch(onError);
+};
+
+app.get("/", async (req, res) => {
+  const data = await request("/markets", (error, response) => {
+    if (!error && response.statusCode === 200) {
+      return response;
+    }
+  });
+
+  res.send(data);
+});

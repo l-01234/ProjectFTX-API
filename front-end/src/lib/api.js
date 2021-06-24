@@ -1,18 +1,46 @@
-import axios from 'axios'
-const baseUrl = 'http://localhost:3001/'
+import axios from "axios";
+const baseUrl = "http://localhost:4000/";
 
-const config = {
-    headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE, OPTIONS',
-        'content-type' : 'application/json',
-        'Accept': 'application/json',
-    }
+const client = axios.create({
+  baseURL: baseUrl,
+});
+
+const request = (options) => {
+  const onSuccess = (response) => {
+    return Promise.resolve(response.data);
   };
-  
 
-export const getData = () => {
-  return axios.get(`${baseUrl}`, config)
-}
+  const onError = (error) => {
+    console.error("Request Failed:", error.config);
 
-console.log(getData)
+    if (error.response) {
+      console.error("Status:", error.response.status);
+      console.error("Data:", error.response.data);
+      console.error("Headers:", error.response.headers);
+    } else {
+      console.error("Error Message:", error.message);
+    }
+
+    return Promise.reject(error.response || error.message);
+  };
+
+  return client(options).then(onSuccess).catch(onError);
+};
+
+export default request;
+
+const exampleFetch = async () => {
+  const data = await request({
+    method: "get",
+    url: "/",
+  });
+
+  return data.result;
+};
+
+const exampleData = async () => {
+  const data = await exampleFetch();
+  console.log(data);
+};
+
+exampleData();
