@@ -9,7 +9,6 @@ class App extends React.Component {
     return (
       <BrowserRouter>
         <Switch>
-          {/* <Navbar></Navbar> */}
           <Route exact path="/" component={Home} />
           <Route exact path="/prices" component={Prices} />
         </Switch>
