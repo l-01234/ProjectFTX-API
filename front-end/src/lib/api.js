@@ -29,7 +29,7 @@ const request = (options) => {
 
 export default request;
 
-const exampleFetch = async () => {
+const fetch = async () => {
   const data = await request({
     method: "get",
     url: "/",
@@ -38,9 +38,11 @@ const exampleFetch = async () => {
   return data.result;
 };
 
-const exampleData = async () => {
-  const data = await exampleFetch();
-  console.log(data);
+export const getData = async () => {
+  const data = await fetch();
+  return data;
 };
 
-exampleData();
+// export const getData = () => {
+//   return axios.get(`${baseUrl}/`);
+// };
