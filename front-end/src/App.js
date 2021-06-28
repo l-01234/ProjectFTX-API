@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Home from "./components/common/home";
-import Converter from "./components/common/converter";
+import Prices from "./components/common/prices";
 import {} from "../src/lib/api";
 
 class App extends React.Component {
@@ -11,7 +11,7 @@ class App extends React.Component {
         <Switch>
           {/* <Navbar></Navbar> */}
           <Route exact path="/" component={Home} />
-          <Route exact path="/converter" component={Converter} />
+          <Route exact path="/prices" component={Prices} />
         </Switch>
       </BrowserRouter>
     );
