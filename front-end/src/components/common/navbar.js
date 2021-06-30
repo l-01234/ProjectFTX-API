@@ -1,4 +1,3 @@
-/* This example requires Tailwind CSS v2.0+ */
 import { Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
@@ -13,7 +12,7 @@ export default function Navbar() {
   return (
     <div>
       <div>
-        <div className="relative z-10 pb-8 bg-white sm:pb-16 md:pb-15 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
+        <div className="relative z-10 pb-8 bg-white sm:pb-16 md:pb-15 lg:max-w-2xl lg:w-full lg:pb-22 xl:pb-18">
           <Popover>
             {({ open }) => (
               <>
