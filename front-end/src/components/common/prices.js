@@ -7,8 +7,10 @@ import React from "react";
 class Prices extends React.Component {
   state = {
     apiData: null,
+    apiDataSpot: null,
+    apiDataFuture: null,
+    apiDataUnaltered: null,
     searchBox: null,
-    type: "all",
   };
 
   async componentDidMount() {
@@ -16,19 +18,34 @@ class Prices extends React.Component {
     console.log(getData());
     this.setState({
       apiData: response,
+      apiDataUnaltered: response,
+      apiDataSpot: response,
+      apiDataFuture: response,
     });
   }
 
-  // handleChange(e) {
-  //   const typeFilter = e.target.value;
-  //   console.log(typeFilter);
-  //   console.log(e.target.value);
-  //   console.log("test");
-  //   // const response = await getData(TypeFilter)
-  //   this.setState({
-  //     type: typeFilter,
-  //   });
-  // }
+  handleChange(e) {
+    const inputString = e.target.value;
+    if (inputString === "") {
+      this.setState({
+        apiData: this.state.apiDataUnaltered,
+      });
+    } else if (inputString === "future") {
+      const filteredData = this.state.apiDataFuture.filter(
+        (item) => item.type === inputString
+      );
+      this.setState({
+        apiData: filteredData,
+      });
+    } else if (inputString === "spot") {
+      const filteredData = this.state.apiDataSpot.filter(
+        (item) => item.type === inputString
+      );
+      this.setState({
+        apiData: filteredData,
+      });
+    }
+  }
 
   render() {
     const apiData = this.state.apiData;
@@ -62,16 +79,18 @@ class Prices extends React.Component {
                     <label htmlFor="type" className="sr-only">
                       Type
                     </label>
-                    <select className="focus:ring-blue-500 focus:border-blue-500 h-full py-0 pl-2 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md">
+                    <select
+                      className="focus:ring-blue-500 focus:border-blue-500 h-full py-0 pl-2 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md"
+                      onChange={(e) => {
+                        this.handleChange(e);
+                      }}
+                    >
                       <option
-                        type="all"
-                        id="all"
+                        type=""
+                        id=""
                         label="Spot & Future"
-                        value="all"
-                        checked={this.state.type === "all"}
-                        onChange={(e) => {
-                          this.handleChange(e);
-                        }}
+                        value=""
+                        checked={this.state.type === ""}
                       >
                         Spot & Future
                       </option>
@@ -81,9 +100,6 @@ class Prices extends React.Component {
                         label="Future"
                         value="future"
                         checked={this.state.type === "future"}
-                        onChange={(e) => {
-                          this.handleChange(e);
-                        }}
                       >
                         Future
                       </option>
@@ -93,9 +109,6 @@ class Prices extends React.Component {
                         label="Spot"
                         value="spot"
                         checked={this.state.type === "spot"}
-                        onChange={(e) => {
-                          this.handleChange(e);
-                        }}
                       >
                         Spot
                       </option>
