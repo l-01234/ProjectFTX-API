@@ -10,7 +10,8 @@ class Prices extends React.Component {
     apiDataSpot: null,
     apiDataFuture: null,
     apiDataUnaltered: null,
-    searchBox: null,
+    apiDatasearchBox: null,
+    textBoxInput: null,
   };
 
   async componentDidMount() {
@@ -21,6 +22,7 @@ class Prices extends React.Component {
       apiDataUnaltered: response,
       apiDataSpot: response,
       apiDataFuture: response,
+      apiDatasearchBox: response,
     });
   }
 
@@ -45,6 +47,26 @@ class Prices extends React.Component {
         apiData: filteredData,
       });
     }
+  }
+
+  handleChange1(e) {
+    let currentList = [];
+    let newList = [];
+    const inputString = e.target.value;
+
+    if (e.target.value !== "") {
+      currentList = this.state.apiDatasearchBox;
+      newList = currentList.filter((item) => {
+        const lc = item.name.toLowerCase();
+        const filter = inputString.toLowerCase();
+        return lc.includes(filter);
+      });
+    } else {
+      newList = this.state.apiDataUnaltered;
+    }
+    this.setState({
+      apiData: newList,
+    });
   }
 
   render() {
@@ -74,6 +96,9 @@ class Prices extends React.Component {
                     id="search"
                     className="focus:ring-blue-500 focus:border-blue-500 block w-full  pr-12 sm:text-sm border-gray-300 rounded-md"
                     placeholder="Input"
+                    onChange={(e) => {
+                      this.handleChange1(e);
+                    }}
                   />
                   <div className="absolute inset-y-0 right-0 flex items-center">
                     <label htmlFor="type" className="sr-only">
