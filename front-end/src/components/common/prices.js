@@ -49,17 +49,16 @@ class Prices extends React.Component {
     }
   }
 
-  handleChange1(e) {
+  handleChangeSearchBox(e) {
     let currentList = [];
     let newList = [];
     const inputString = e.target.value;
-
     if (e.target.value !== "") {
       currentList = this.state.apiDatasearchBox;
       newList = currentList.filter((item) => {
-        const lc = item.name.toLowerCase();
+        const lcApiName = item.name.toLowerCase();
         const filter = inputString.toLowerCase();
-        return lc.includes(filter);
+        return lcApiName.includes(filter);
       });
     } else {
       newList = this.state.apiDataUnaltered;
@@ -97,7 +96,7 @@ class Prices extends React.Component {
                     className="focus:ring-blue-500 focus:border-blue-500 block w-full  pr-12 sm:text-sm border-gray-300 rounded-md"
                     placeholder="Input"
                     onChange={(e) => {
-                      this.handleChange1(e);
+                      this.handleChangeSearchBox(e);
                     }}
                   />
                   <div className="absolute inset-y-0 right-0 flex items-center">
